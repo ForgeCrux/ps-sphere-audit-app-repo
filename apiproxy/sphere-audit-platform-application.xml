@@ -6,7 +6,6 @@
   Version: 1.0.0
   BasePath: /v1
   Generated: auto-generated — do not edit manually
-
   Policies included:
   TP-JsonThreatProtection
   OA-VerifyToken
