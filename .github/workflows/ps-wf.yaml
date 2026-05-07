@@ -14,7 +14,8 @@ jobs:
     with:
       apigee_org: gen-ai-poc-onboarding
       apigee_env: dev
-      deploy_proxy: sphere-audit-platform-application
+      deploy_proxy: offer-subscription-api-v3
+      resourceType: sharedflows
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
