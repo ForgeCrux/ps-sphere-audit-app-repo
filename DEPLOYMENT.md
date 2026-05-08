@@ -8,7 +8,7 @@ This generated service includes GitHub Actions CI/CD for Google Cloud Run.
 | --- | --- |
 | GCP project | `probestack-prod` |
 | Region | `us-central1` |
-| Service name | `financial-services-api` |
+| Service name | `retail-product-order-service-api` |
 | Service account | `github-actions-deployer@probestack-prod.iam.gserviceaccount.com` |
 | Workload identity provider | `projects/861433193200/locations/global/workloadIdentityPools/github-pool/providers/github-provider` |
 | Artifact Registry host | `us-central1-docker.pkg.dev` |
@@ -26,19 +26,19 @@ Before the workflow can deploy, confirm these resources exist:
 ## Local Docker Build
 
 ```bash
-docker build -t financial-services-api:local .
-docker run --rm -p 8080:8080 financial-services-api:local
+docker build -t retail-product-order-service-api:local .
+docker run --rm -p 8080:8080 retail-product-order-service-api:local
 ```
 
 ## Manual Cloud Run Deploy
 
 ```bash
-IMAGE=us-central1-docker.pkg.dev/probestack-prod/probestack-prod-apps/financial-services-api:manual
+IMAGE=us-central1-docker.pkg.dev/probestack-prod/probestack-prod-apps/retail-product-order-service-api:manual
 
 docker build -t ${IMAGE} .
 docker push ${IMAGE}
 
-gcloud run deploy financial-services-api \
+gcloud run deploy retail-product-order-service-api \
   --image=${IMAGE} \
   --platform=managed \
   --region=us-central1 \

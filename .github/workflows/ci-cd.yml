@@ -1,4 +1,4 @@
-name: CI/CD - financial-services-api Deploy to Google Cloud Run
+name: CI/CD - retail-product-order-service-api Deploy to Google Cloud Run
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 env:
   PROJECT_ID: probestack-prod
   SERVICE_ACCOUNT_EMAIL: github-actions-deployer@probestack-prod.iam.gserviceaccount.com
-  SERVICE_NAME: financial-services-api
+  SERVICE_NAME: retail-product-order-service-api
   REGION: us-central1
   ARTIFACT_REGISTRY_HOST: us-central1-docker.pkg.dev
   ARTIFACT_REGISTRY_REPOSITORY: probestack-prod/probestack-prod-apps

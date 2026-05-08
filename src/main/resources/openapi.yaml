@@ -1,72 +1,52 @@
 openapi: 3.0.3
 info:
-  contact:
-    email: support@example.com
-    name: Finance API Team
-  description: "API specification for financial account management, transactions,\
-    \ payments, and reporting."
-  title: Financial Services API
+  description: API for managing products and orders in a retail domain
+  title: Retail Product & Order Service API
   version: 1.0.0
 servers:
-- description: Production
-  url: https://api.example.com/v1
-- description: Sandbox
-  url: https://sandbox.example.com/v1
-security:
-- bearerAuth: []
-tags:
-- name: Accounts
-- name: Transactions
-- name: Payments
-- name: Reports
+- url: https://api.retail.com/api/v1
 paths:
-  /accounts:
+  /products:
     get:
-      operationId: listAccounts
+      parameters:
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: priceMin
+        required: false
+        schema:
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: priceMax
+        required: false
+        schema:
+          type: number
+        style: form
       responses:
         "200":
           content:
             application/json:
               schema:
                 items:
-                  $ref: "#/components/schemas/Account"
+                  $ref: "#/components/schemas/Product"
                 type: array
-          description: Successful response
-      summary: List customer accounts
-      tags:
-      - Accounts
+          description: List of products
+      summary: Get all products
       x-accepts: application/json
-      x-tags:
-      - tag: Accounts
-    post:
-      operationId: createAccount
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateAccountRequest"
-        required: true
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Account"
-          description: Account created
-      summary: Create a new account
-      tags:
-      - Accounts
-      x-content-type: application/json
-      x-accepts: application/json
-      x-tags:
-      - tag: Accounts
-  /accounts/{accountId}:
+  /products/{productId}:
     get:
-      operationId: getAccount
       parameters:
       - explode: false
         in: path
-        name: accountId
+        name: productId
         required: true
         schema:
           type: string
@@ -76,288 +56,160 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Account"
-          description: Account details
-      summary: Get account details
-      tags:
-      - Accounts
+                $ref: "#/components/schemas/Product"
+          description: Product details
+        "404":
+          description: Product not found
+      summary: Get product by ID
       x-accepts: application/json
-      x-tags:
-      - tag: Accounts
-  /transactions:
-    get:
-      operationId: listTransactions
-      parameters:
-      - explode: true
-        in: query
-        name: accountId
-        required: false
-        schema:
-          type: string
-        style: form
-      - explode: true
-        in: query
-        name: startDate
-        required: false
-        schema:
-          format: date
-          type: string
-        style: form
-      - explode: true
-        in: query
-        name: endDate
-        required: false
-        schema:
-          format: date
-          type: string
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: "#/components/schemas/Transaction"
-                type: array
-          description: Transaction list
-      summary: List transactions
-      tags:
-      - Transactions
-      x-accepts: application/json
-      x-tags:
-      - tag: Transactions
+  /orders:
     post:
-      operationId: createTransaction
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateTransactionRequest"
+              $ref: "#/components/schemas/CreateOrderRequest"
         required: true
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Transaction"
-          description: Transaction created
-      summary: Create transaction
-      tags:
-      - Transactions
+                $ref: "#/components/schemas/Order"
+          description: Order created
+      summary: Create order
       x-content-type: application/json
       x-accepts: application/json
-      x-tags:
-      - tag: Transactions
-  /payments:
-    post:
-      operationId: createPayment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PaymentRequest"
-        required: true
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PaymentResponse"
-          description: Payment processed
-      summary: Initiate payment
-      tags:
-      - Payments
-      x-content-type: application/json
-      x-accepts: application/json
-      x-tags:
-      - tag: Payments
-  /reports/balance-sheet:
+  /orders/{orderId}:
     get:
-      operationId: getBalanceSheet
       parameters:
-      - explode: true
-        in: query
-        name: fiscalYear
+      - explode: false
+        in: path
+        name: orderId
         required: true
         schema:
-          type: integer
-        style: form
+          type: string
+        style: simple
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BalanceSheet"
-          description: Balance sheet report
-      summary: Generate balance sheet report
-      tags:
-      - Reports
+                $ref: "#/components/schemas/Order"
+          description: Order details
+        "404":
+          description: Order not found
+      summary: Get order details
       x-accepts: application/json
-      x-tags:
-      - tag: Reports
+  /orders/{orderId}/status:
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrderStatusRequest"
+        required: true
+      responses:
+        "200":
+          description: Order status updated
+      summary: Update order status
+      x-content-type: application/json
+      x-accepts: application/json
 components:
   schemas:
-    Account:
+    Product:
       example:
-        createdAt: 2000-01-23T04:56:07.000+00:00
-        balance: 15420.75
-        accountType: SAVINGS
-        currency: USD
-        id: ACC123456
-        customerName: John Doe
-      properties:
-        id:
-          example: ACC123456
-          type: string
-        customerName:
-          example: John Doe
-          type: string
-        accountType:
-          enum:
-          - SAVINGS
-          - CHECKING
-          - CREDIT
-          type: string
-        currency:
-          example: USD
-          type: string
-        balance:
-          example: 15420.75
-          format: double
-          type: number
-        createdAt:
-          format: date-time
-          type: string
-      type: object
-    CreateAccountRequest:
-      example:
-        accountType: accountType
-        currency: currency
-        customerName: customerName
-      properties:
-        customerName:
-          type: string
-        accountType:
-          type: string
-        currency:
-          type: string
-      required:
-      - accountType
-      - currency
-      - customerName
-      type: object
-    Transaction:
-      example:
-        transactionType: DEBIT
-        accountId: accountId
-        amount: 0.8008281904610115
+        productId: productId
+        price: 0.8008281904610115
+        name: name
         description: description
-        currency: currency
-        transactionDate: 2000-01-23T04:56:07.000+00:00
-        transactionId: transactionId
+        stock: 6
       properties:
-        transactionId:
+        productId:
           type: string
-        accountId:
-          type: string
-        amount:
-          format: double
-          type: number
-        currency:
-          type: string
-        transactionType:
-          enum:
-          - DEBIT
-          - CREDIT
+        name:
           type: string
         description:
           type: string
-        transactionDate:
-          format: date-time
-          type: string
-      type: object
-    CreateTransactionRequest:
-      example:
-        transactionType: transactionType
-        accountId: accountId
-        amount: 0.8008281904610115
-        description: description
-      properties:
-        accountId:
-          type: string
-        amount:
-          format: double
+        price:
           type: number
-        transactionType:
-          type: string
-        description:
-          type: string
-      required:
-      - accountId
-      - amount
-      - transactionType
+        stock:
+          type: integer
       type: object
-    PaymentRequest:
+    Order:
       example:
-        amount: 0.8008281904610115
-        sourceAccount: sourceAccount
-        currency: USD
-        destinationAccount: destinationAccount
+        totalAmount: 6.027456183070403
+        orderId: orderId
+        customerId: customerId
+        items:
+        - quantity: 0
+          productId: productId
+        - quantity: 0
+          productId: productId
+        status: CREATED
       properties:
-        sourceAccount:
+        orderId:
           type: string
-        destinationAccount:
+        customerId:
           type: string
-        amount:
-          format: double
+        items:
+          items:
+            $ref: "#/components/schemas/OrderItem"
+          type: array
+        totalAmount:
           type: number
-        currency:
-          example: USD
-          type: string
-      required:
-      - amount
-      - destinationAccount
-      - sourceAccount
-      type: object
-    PaymentResponse:
-      example:
-        paymentId: paymentId
-        processedAt: 2000-01-23T04:56:07.000+00:00
-        status: PENDING
-      properties:
-        paymentId:
-          type: string
         status:
           enum:
-          - PENDING
-          - COMPLETED
-          - FAILED
-          type: string
-        processedAt:
-          format: date-time
+          - CREATED
+          - SHIPPED
+          - DELIVERED
           type: string
       type: object
-    BalanceSheet:
+    OrderItem:
       example:
-        assets: 6.027456183070403
-        liabilities: 1.4658129805029452
-        fiscalYear: 0
-        equity: 5.962133916683182
+        quantity: 0
+        productId: productId
       properties:
-        fiscalYear:
+        productId:
+          type: string
+        quantity:
           type: integer
-        assets:
-          format: double
-          type: number
-        liabilities:
-          format: double
-          type: number
-        equity:
-          format: double
-          type: number
       type: object
-  securitySchemes:
-    bearerAuth:
-      bearerFormat: JWT
-      scheme: bearer
-      type: http
+    CreateOrderRequest:
+      example:
+        customerId: customerId
+        items:
+        - quantity: 0
+          productId: productId
+        - quantity: 0
+          productId: productId
+      properties:
+        customerId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/OrderItem"
+          type: array
+      required:
+      - customerId
+      - items
+      type: object
+    UpdateOrderStatusRequest:
+      example:
+        status: CREATED
+      properties:
+        status:
+          enum:
+          - CREATED
+          - SHIPPED
+          - DELIVERED
+          type: string
+      type: object

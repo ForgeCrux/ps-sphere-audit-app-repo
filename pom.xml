@@ -9,9 +9,9 @@
     <relativePath></relativePath>
   </parent>
   <groupId>com.probestack.forgestudio.design</groupId>
-  <artifactId>financial-services-api</artifactId>
+  <artifactId>retail-product-order-service-api</artifactId>
   <version>1.0.0</version>
-  <name>financial-services-api</name>
+  <name>retail-product-order-service-api</name>
   <properties>
     <log4j2.version>2.20.0</log4j2.version>
     <java.version>17</java.version>

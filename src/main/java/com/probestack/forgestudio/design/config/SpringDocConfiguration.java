@@ -18,22 +18,9 @@ public class SpringDocConfiguration {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("Financial Services API")
-                                .description("API specification for financial account management, transactions, payments, and reporting.")
-                                .contact(
-                                        new Contact()
-                                                .name("Finance API Team")
-                                                .email("support@example.com")
-                                )
+                                .title("Retail Product &amp; Order Service API")
+                                .description("API for managing products and orders in a retail domain")
                                 .version("1.0.0")
-                )
-                .components(
-                        new Components()
-                                .addSecuritySchemes("bearerAuth", new SecurityScheme()
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
-                                        .bearerFormat("JWT")
-                                )
                 )
         ;
     }

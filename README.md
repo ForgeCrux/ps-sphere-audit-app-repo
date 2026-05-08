@@ -1,10 +1,10 @@
-# financial-services-api
+# retail-product-order-service-api
 
 Generated Spring Boot application from OpenAPI specification.
 
 ## Project Details
 - **Group ID**: com.probestack.forgestudio.design
-- **Artifact ID**: financial-services-api
+- **Artifact ID**: retail-product-order-service-api
 - **Version**: 1.0.0
 - **Base Package**: com.probestack.forgestudio.design
 
@@ -29,7 +29,7 @@ Once the application is running, access the Swagger UI at:
 This generated project includes GitHub Actions CI/CD for Google Cloud Run.
 
 - Workflow: `.github/workflows/ci-cd.yml`
-- Service name: `financial-services-api`
+- Service name: `retail-product-order-service-api`
 - GCP project: `probestack-prod`
 - Region: `us-central1`
 - Artifact Registry repository: `us-central1-docker.pkg.dev/probestack-prod/probestack-prod-apps`
