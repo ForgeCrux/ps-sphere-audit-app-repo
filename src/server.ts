@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
 export const server = new McpServer({
-  name: "Task Tracker MCP",
+  name: "test-mcp",
   version: "0.1.0",
 });
 

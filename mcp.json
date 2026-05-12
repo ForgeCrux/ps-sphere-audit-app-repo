@@ -1,6 +1,6 @@
 {
-  "slug" : "task-tracker-mcp",
-  "name" : "Task Tracker MCP",
+  "slug" : "test-mcp",
+  "name" : "test-mcp",
   "description" : "MCP server for creating, listing, and completing tasks with in-memory storage",
   "category" : "Productivity",
   "transport" : "STREAMABLE_HTTP",

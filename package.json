@@ -1,5 +1,5 @@
 {
-  "name" : "task-tracker-mcp",
+  "name" : "test-mcp",
   "version" : "0.1.0",
   "description" : "MCP server for creating, listing, and completing tasks with in-memory storage",
   "type" : "module",
