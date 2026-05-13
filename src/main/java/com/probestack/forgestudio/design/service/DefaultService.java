@@ -1,10 +1,8 @@
 package com.probestack.forgestudio.design.service;
 
-import com.probestack.forgestudio.design.model.CreateOrderRequest;
-import com.probestack.forgestudio.design.model.Order;
-import com.probestack.forgestudio.design.model.Product;
-import com.probestack.forgestudio.design.model.UpdateOrderStatusRequest;
-import com.probestack.forgestudio.design.repository.UpdateOrderStatusRequestRepository;
+import com.probestack.forgestudio.design.model.Appointment;
+import com.probestack.forgestudio.design.model.Patient;
+import com.probestack.forgestudio.design.repository.AppointmentRepository;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.Number;
@@ -12,16 +10,14 @@ import java.lang.NumberFormatException;
 import java.lang.Object;
 import java.lang.String;
 import java.lang.Void;
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
- * Service layer for UpdateOrderStatusRequest operations.
+ * Service layer for Appointment operations.
  *
  * <p>This service uses MongoDB repository for data persistence.</p>
  *
@@ -30,33 +26,27 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DefaultService {
-    private final UpdateOrderStatusRequestRepository updateOrderStatusRequestRepository;
+    private final AppointmentRepository appointmentRepository;
 
-    public DefaultService(UpdateOrderStatusRequestRepository updateOrderStatusRequestRepository) {
-        this.updateOrderStatusRequestRepository = updateOrderStatusRequestRepository;
+    public DefaultService(AppointmentRepository appointmentRepository) {
+        this.appointmentRepository = appointmentRepository;
     }
 
-    public ResponseEntity<Order> ordersOrderIdGet(String orderId) {
+    public ResponseEntity<Void> appointmentsPost(Appointment appointment) {
+        // Save the entity to database
+        Appointment savedAppointment = appointmentRepository.save(appointment);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    public ResponseEntity<Patient> patientsPatientIdGet(String patientId) {
         // Retrieve entity by ID from database
-        Long repositoryId = toRepositoryId(orderId);
-        Optional<UpdateOrderStatusRequest> entity = updateOrderStatusRequestRepository.findById(repositoryId);
+        Long repositoryId = toRepositoryId(patientId);
+        Optional<Appointment> entity = appointmentRepository.findById(repositoryId);
         // Map entity to response DTO
-        return entity.map(this::mapToOrder).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return entity.map(this::mapToPatient).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Void> ordersOrderIdStatusPut(String orderId,
-            UpdateOrderStatusRequest updateOrderStatusRequest) {
-        // Update entity in database
-        // Verify entity exists before updating
-        Long repositoryId = toRepositoryId(orderId);
-        if (!updateOrderStatusRequestRepository.existsById(repositoryId)) {
-            return ResponseEntity.notFound().build();
-        }
-        UpdateOrderStatusRequest updatedUpdateOrderStatusRequest = updateOrderStatusRequestRepository.save(updateOrderStatusRequest);
-        return ResponseEntity.ok().build();
-    }
-
-    public ResponseEntity<Order> ordersPost(CreateOrderRequest createOrderRequest) {
+    public ResponseEntity<Void> patientsPost(Patient patient) {
         // TODO: Implement custom business logic
         // Available repository methods:
         //   - save(entity) - Create or update
@@ -65,24 +55,7 @@ public class DefaultService {
         //   - existsById(id) - Check if exists
         //   - deleteById(id) - Delete by ID
         //   - count() - Count all entities
-        return null;
-    }
-
-    public ResponseEntity<List<Product>> productsGet(String category, BigDecimal priceMin,
-            BigDecimal priceMax) {
-        // Retrieve all entities from database
-        List<UpdateOrderStatusRequest> entities = updateOrderStatusRequestRepository.findAll();
-        // Map entities to response DTOs
-        List<Product> responses = entities.stream().map(this::mapToProduct).collect(Collectors.toList());
-        return ResponseEntity.ok(responses);
-    }
-
-    public ResponseEntity<Product> productsProductIdGet(String productId) {
-        // Retrieve entity by ID from database
-        Long repositoryId = toRepositoryId(productId);
-        Optional<UpdateOrderStatusRequest> entity = updateOrderStatusRequestRepository.findById(repositoryId);
-        // Map entity to response DTO
-        return entity.map(this::mapToProduct).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
     /**
@@ -110,38 +83,16 @@ public class DefaultService {
     }
 
     /**
-     * Maps UpdateOrderStatusRequest entity to Order response DTO.
+     * Maps Appointment entity to Patient response DTO.
      *
      * <p>Uses Spring BeanUtils.copyProperties() to automatically copy matching fields.</p>
      *
      * @param entity the entity to map
      * @return mapped response DTO
      */
-    private Order mapToOrder(UpdateOrderStatusRequest entity) {
+    private Patient mapToPatient(Appointment entity) {
         // Create new response object
-        Order response = new Order();
-        // Copy matching properties from entity to response
-        BeanUtils.copyProperties(entity, response);
-        // 
-        // TODO: Add custom field mappings here if needed
-        // Example:
-        //   response.setCustomField(entity.getSourceField());
-        //   response.setMessage("Success");
-        // 
-        return response;
-    }
-
-    /**
-     * Maps UpdateOrderStatusRequest entity to Product response DTO.
-     *
-     * <p>Uses Spring BeanUtils.copyProperties() to automatically copy matching fields.</p>
-     *
-     * @param entity the entity to map
-     * @return mapped response DTO
-     */
-    private Product mapToProduct(UpdateOrderStatusRequest entity) {
-        // Create new response object
-        Product response = new Product();
+        Patient response = new Patient();
         // Copy matching properties from entity to response
         BeanUtils.copyProperties(entity, response);
         // 

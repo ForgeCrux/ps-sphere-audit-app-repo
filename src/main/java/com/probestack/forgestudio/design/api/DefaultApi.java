@@ -5,11 +5,8 @@
  */
 package com.probestack.forgestudio.design.api;
 
-import java.math.BigDecimal;
-import com.probestack.forgestudio.design.model.CreateOrderRequest;
-import com.probestack.forgestudio.design.model.Order;
-import com.probestack.forgestudio.design.model.Product;
-import com.probestack.forgestudio.design.model.UpdateOrderStatusRequest;
+import com.probestack.forgestudio.design.model.Appointment;
+import com.probestack.forgestudio.design.model.Patient;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-05-08T17:13:08.912352659Z[GMT]")@Validated
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-05-13T04:05:50.787357823Z[GMT]")@Validated
 @Tag(name = "Default", description = "the Default API")
 public interface DefaultApi {
 
@@ -45,187 +42,91 @@ public interface DefaultApi {
     }
 
     /**
-     * GET /orders/{orderId} : Get order details
+     * POST /appointments : Create appointment
      *
-     * @param orderId  (required)
-     * @return Order details (status code 200)
-     *         or Order not found (status code 404)
+     * @param appointment  (required)
+     * @return Appointment created (status code 201)
      */
     @Operation(
-        operationId = "ordersOrderIdGet",
-        summary = "Get order details",
+        operationId = "appointmentsPost",
+        summary = "Create appointment",
         responses = {
-            @ApiResponse(responseCode = "200", description = "Order details", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
-            }),
-            @ApiResponse(responseCode = "404", description = "Order not found")
+            @ApiResponse(responseCode = "201", description = "Appointment created")
         }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/orders/{orderId}",
-        produces = { "application/json" }
-    )
-    
-    default ResponseEntity<Order> ordersOrderIdGet(
-        @Parameter(name = "orderId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("orderId") String orderId
-    ) {
-                        getRequest().ifPresent(request -> {
-                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                            String exampleString = "{ \"totalAmount\" : 6.027456183070403, \"orderId\" : \"orderId\", \"customerId\" : \"customerId\", \"items\" : [ { \"quantity\" : 0, \"productId\" : \"productId\" }, { \"quantity\" : 0, \"productId\" : \"productId\" } ], \"status\" : \"CREATED\" }";
-                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                            break;
-                        }
-                    }
-                });
-                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-                                                            }
-
-
-    /**
-     * PUT /orders/{orderId}/status : Update order status
-     *
-     * @param orderId  (required)
-     * @param updateOrderStatusRequest  (required)
-     * @return Order status updated (status code 200)
-     */
-    @Operation(
-        operationId = "ordersOrderIdStatusPut",
-        summary = "Update order status",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Order status updated")
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.PUT,
-        value = "/orders/{orderId}/status",
+        method = RequestMethod.POST,
+        value = "/appointments",
         consumes = { "application/json" }
     )
     
-    default ResponseEntity<Void> ordersOrderIdStatusPut(
-        @Parameter(name = "orderId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("orderId") String orderId,
-        @Parameter(name = "UpdateOrderStatusRequest", description = "", required = true) @Valid @RequestBody UpdateOrderStatusRequest updateOrderStatusRequest
+    default ResponseEntity<Void> appointmentsPost(
+        @Parameter(name = "Appointment", description = "", required = true) @Valid @RequestBody Appointment appointment
     ) {
                         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
                                     }
 
 
     /**
-     * POST /orders : Create order
+     * GET /patients/{patientId} : Get patient details
      *
-     * @param createOrderRequest  (required)
-     * @return Order created (status code 201)
+     * @param patientId  (required)
+     * @return Patient details (status code 200)
      */
     @Operation(
-        operationId = "ordersPost",
-        summary = "Create order",
+        operationId = "patientsPatientIdGet",
+        summary = "Get patient details",
         responses = {
-            @ApiResponse(responseCode = "201", description = "Order created", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
+            @ApiResponse(responseCode = "200", description = "Patient details", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Patient.class))
             })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/patients/{patientId}",
+        produces = { "application/json" }
+    )
+    
+    default ResponseEntity<Patient> patientsPatientIdGet(
+        @Parameter(name = "patientId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("patientId") String patientId
+    ) {
+                        getRequest().ifPresent(request -> {
+                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                            String exampleString = "{ \"gender\" : \"gender\", \"patientId\" : \"patientId\", \"name\" : \"name\", \"age\" : 0 }";
+                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                            break;
+                        }
+                    }
+                });
+                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                            }
+
+
+    /**
+     * POST /patients : Create patient
+     *
+     * @param patient  (required)
+     * @return Patient created (status code 201)
+     */
+    @Operation(
+        operationId = "patientsPost",
+        summary = "Create patient",
+        responses = {
+            @ApiResponse(responseCode = "201", description = "Patient created")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/orders",
-        produces = { "application/json" },
+        value = "/patients",
         consumes = { "application/json" }
     )
     
-    default ResponseEntity<Order> ordersPost(
-        @Parameter(name = "CreateOrderRequest", description = "", required = true) @Valid @RequestBody CreateOrderRequest createOrderRequest
+    default ResponseEntity<Void> patientsPost(
+        @Parameter(name = "Patient", description = "", required = true) @Valid @RequestBody Patient patient
     ) {
-                        getRequest().ifPresent(request -> {
-                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                            String exampleString = "{ \"totalAmount\" : 6.027456183070403, \"orderId\" : \"orderId\", \"customerId\" : \"customerId\", \"items\" : [ { \"quantity\" : 0, \"productId\" : \"productId\" }, { \"quantity\" : 0, \"productId\" : \"productId\" } ], \"status\" : \"CREATED\" }";
-                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                            break;
-                        }
-                    }
-                });
-                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-                                                            }
-
-
-    /**
-     * GET /products : Get all products
-     *
-     * @param category  (optional)
-     * @param priceMin  (optional)
-     * @param priceMax  (optional)
-     * @return List of products (status code 200)
-     */
-    @Operation(
-        operationId = "productsGet",
-        summary = "Get all products",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "List of products", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Product.class)))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/products",
-        produces = { "application/json" }
-    )
-    
-    default ResponseEntity<List<Product>> productsGet(
-        @Parameter(name = "category", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "category", required = false) String category,
-        @Parameter(name = "priceMin", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "priceMin", required = false) BigDecimal priceMin,
-        @Parameter(name = "priceMax", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "priceMax", required = false) BigDecimal priceMax
-    ) {
-                        getRequest().ifPresent(request -> {
-                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                            String exampleString = "[ { \"productId\" : \"productId\", \"price\" : 0.8008281904610115, \"name\" : \"name\", \"description\" : \"description\", \"stock\" : 6 }, { \"productId\" : \"productId\", \"price\" : 0.8008281904610115, \"name\" : \"name\", \"description\" : \"description\", \"stock\" : 6 } ]";
-                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                            break;
-                        }
-                    }
-                });
-                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-                                                            }
-
-
-    /**
-     * GET /products/{productId} : Get product by ID
-     *
-     * @param productId  (required)
-     * @return Product details (status code 200)
-     *         or Product not found (status code 404)
-     */
-    @Operation(
-        operationId = "productsProductIdGet",
-        summary = "Get product by ID",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Product details", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))
-            }),
-            @ApiResponse(responseCode = "404", description = "Product not found")
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/products/{productId}",
-        produces = { "application/json" }
-    )
-    
-    default ResponseEntity<Product> productsProductIdGet(
-        @Parameter(name = "productId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("productId") String productId
-    ) {
-                        getRequest().ifPresent(request -> {
-                    for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                        if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                            String exampleString = "{ \"productId\" : \"productId\", \"price\" : 0.8008281904610115, \"name\" : \"name\", \"description\" : \"description\", \"stock\" : 6 }";
-                            ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                            break;
-                        }
-                    }
-                });
-                return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-                                                            }
+                        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                    }
 
 }

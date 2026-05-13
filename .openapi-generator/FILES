@@ -8,11 +8,8 @@ src/main/java/com/probestack/forgestudio/design/api/DefaultApi.java
 src/main/java/com/probestack/forgestudio/design/api/DefaultApiController.java
 src/main/java/com/probestack/forgestudio/design/config/HomeController.java
 src/main/java/com/probestack/forgestudio/design/config/SpringDocConfiguration.java
-src/main/java/com/probestack/forgestudio/design/model/CreateOrderRequest.java
-src/main/java/com/probestack/forgestudio/design/model/Order.java
-src/main/java/com/probestack/forgestudio/design/model/OrderItem.java
-src/main/java/com/probestack/forgestudio/design/model/Product.java
-src/main/java/com/probestack/forgestudio/design/model/UpdateOrderStatusRequest.java
+src/main/java/com/probestack/forgestudio/design/model/Appointment.java
+src/main/java/com/probestack/forgestudio/design/model/Patient.java
 src/main/resources/application.properties
 src/main/resources/openapi.yaml
 src/test/java/com/probestack/forgestudio/design/OpenApiGeneratorApplicationTests.java

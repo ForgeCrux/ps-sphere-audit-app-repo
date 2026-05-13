@@ -18,8 +18,8 @@ public class SpringDocConfiguration {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("Retail Product &amp; Order Service API")
-                                .description("API for managing products and orders in a retail domain")
+                                .title("Healthcare Patient Service API")
+                                .description("API for managing patient records and appointments")
                                 .version("1.0.0")
                 )
         ;

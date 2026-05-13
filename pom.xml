@@ -9,9 +9,9 @@
     <relativePath></relativePath>
   </parent>
   <groupId>com.probestack.forgestudio.design</groupId>
-  <artifactId>retail-product-order-service-api</artifactId>
+  <artifactId>healthcare-patient-service-api</artifactId>
   <version>1.0.0</version>
-  <name>retail-product-order-service-api</name>
+  <name>healthcare-patient-service-api</name>
   <properties>
     <log4j2.version>2.20.0</log4j2.version>
     <java.version>17</java.version>
